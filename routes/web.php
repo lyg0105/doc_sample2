@@ -11,7 +11,7 @@
 |
 */
 Route::get('/', function () {
-    return view('hello');
+    return redirect('main');
 });
 
 Route::get('/hello','My\HelloController@index');
@@ -22,4 +22,8 @@ Route::get('/api/login','Login\LoginController@login');
 
 Route::get('/api/logout','Login\LoginController@logout');
 
-Route::get('/main','Main\MainController@index')->middleware('checkLogin');
+Route::middleware(['checkLogin'])->group(function () {
+    Route::get('/main','Main\MainController@index');
+
+    Route::get('/doc/list','Home\Doc\DocController@list');
+});
