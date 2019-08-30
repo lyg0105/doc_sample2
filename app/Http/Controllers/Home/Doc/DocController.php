@@ -27,4 +27,8 @@ class DocController extends Controller
         $doc_list_arr=$this->doc_model->getList();
         return view('doc/list',['doc_list_arr'=>$doc_list_arr]);
     }
+    public function write()
+    {
+        return view('doc/write');
+    }
 }

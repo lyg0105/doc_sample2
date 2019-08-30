@@ -4,8 +4,9 @@
 
 @section('sidebar')
     @parent
-
-    <p>This is appended to the master sidebar.</p>
+    @section('sidebar_add')
+    <a class="btn_o_m" href="/api/logout" >로그아웃</a>
+    @endsection
 @endsection
 @section('content')
 <p>ID: {{ $id }}</p>
@@ -14,6 +15,4 @@
 <p>aud: {{ $token_data->aud }}</p>
 <p>iat: {{ $token_data->iat }}</p>
 <p>exp: {{ $token_data->exp }}</p>
-<p><a href="/doc/list" >Doc리스트</a></p>
-<p><a href="/api/logout" >로그아웃</a></p>
 @endsection

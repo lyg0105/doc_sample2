@@ -1,14 +1,23 @@
 <html>
     <head>
         <title>App Name - @yield('title')</title>
+        @component('layouts.top_link')
+            @yield('top_link_add')
+        @endcomponent
     </head>
     <body>
-        @section('sidebar')
-            This is the master sidebar.
-        @show
+        <div class="body_wrap">
+            <div id="header">
+            @section('sidebar')
+                @component('layouts.sidebar')
+                    @yield('sidebar_add')
+                @endcomponent
+            @show
+            </div>
 
-        <div class="container">
-            @yield('content')
+            <div id="contents">
+                @yield('content')
+            </div>
         </div>
     </body>
 </html>
