@@ -31,10 +31,11 @@
                 "is_update":"",
                 "_token":"{{ csrf_token() }}"
             };
+            $(".chk_box").prop("checked",true);
             form_json_data=form_func.get_form_data_by_check_box(form_json_data,{"pri_col_arr":x_pri_col_arr});
             form_func.requestAjax(
                 {
-                    'url':'/api/doc/write',
+                    'url':'/api/common/write',
                     'form_data':form_json_data,
                     'is_confirm':true,
                     'confirm_msg':'등록 하시겠습니까?',

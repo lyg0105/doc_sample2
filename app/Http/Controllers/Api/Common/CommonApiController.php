@@ -8,13 +8,13 @@ use App\Services\Common\InsertOrUpdateService;
 
 class CommonApiController extends Controller
 {
-    private $request;
-    private $baseModel;
+    public $request;
+    public $baseModel;
 
     public function __construct(Request $request)
     {
         $this->request = $request;
-        $this->doc_model=resolve('App\Model\Base\Model');
+        $this->baseModel=resolve('App\Model\Base\BaseModel');
     }
 
     /**
