@@ -128,7 +128,7 @@ class DBFunc
         }
 
         $tmp_where=array();
-        foreach($pri_col_val_arr as $key=>$val){
+        foreach($pri_col_val as $key=>$val){
             if($key==$auto_key){continue;}
             $tmp_where[]="AND ".$key."='".$val."'";
         }

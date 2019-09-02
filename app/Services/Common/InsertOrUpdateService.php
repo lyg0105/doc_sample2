@@ -31,10 +31,10 @@ class InsertOrUpdateService
         }
 
         $x_column_arr=DBFunc::getXColumnArrByTableName(['table'=>$table,'baseModel'=>$baseModel]);
-        $opt_obj=[
+        $tmp_opt_obj=[
             'x_column_arr'=>$x_column_arr
         ];
-        $tmp_rs=ConvertRequest::getRequestDataByXcolumnArr($opt_obj);
+        $tmp_rs=ConvertRequest::getRequestDataByXcolumnArr($tmp_opt_obj);
         $post_data_arr=$tmp_rs['data']['post_data_arr'];
         $pri_col_arr=$tmp_rs['data']['pri_col_arr'];
         $last_pri_col=$tmp_rs['data']['last_pri_col'];
@@ -233,7 +233,7 @@ class InsertOrUpdateService
            }else{
                $tmp_row_num=$i;
                if(!empty($input_row_num)){$tmp_row_num=$input_row_num[$i];}
-               $error_info_arr[]=array('row_num'=>$tmp_row_num,'msg'=>$attempt_cnt.'번째 작업 중 에러입니다.'.$db->get_error());
+               $error_info_arr[]=array('row_num'=>$tmp_row_num,'msg'=>$attempt_cnt.'번째 작업 중 에러입니다.'.$baseModel->db_main->get_error());
            }
        }
 
@@ -319,7 +319,7 @@ class InsertOrUpdateService
                      $tmp_w[]="AND {$key}='{$val}'";
                 }
                 $sql_opt=array('t'=>$table,'w'=>$tmp_w,'o'=>1);
-                $pre_info=$db->get_info_arr($sql_opt, $debug = null);
+                $pre_info=$baseModel->db_main->get_info_arr($sql_opt, $debug = null);
            }
        }
        $data_arr=[
