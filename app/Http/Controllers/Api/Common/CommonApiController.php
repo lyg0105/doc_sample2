@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Model\Base\BaseModel;
 use App\Services\Common\InsertOrUpdateService;
+use App\Values\XColumn\XColumnArr;
 
 class CommonApiController extends Controller
 {
@@ -26,6 +27,13 @@ class CommonApiController extends Controller
         $data_list_arr=$this->baseModel->getList();
 
         return parent::response(['data'=>$data_list_arr]);
+    }
+    public function xcolumn()
+    {
+        $sort=$this->request->input('list_sort');
+        $this->xColumnArr_obj=new XColumnArr(['list_sort'=>$sort]);
+        $result_arr=['data'=>$this->xColumnArr_obj->getData()];
+        return parent::response($result_arr);
     }
     public function write()
     {

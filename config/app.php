@@ -1,7 +1,7 @@
 <?php
 
 return [
-
+    'SCRIPT_VERSION'=>env('SCRIPT_VERSION','1.0'),
     /*
     |--------------------------------------------------------------------------
     | Application Name

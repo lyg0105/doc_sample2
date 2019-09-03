@@ -1,6 +1,4 @@
-
-@component('x_templete.crud.write.v1.js.index_js')
-@endcomponent
+<?php include_once str_replace('\\','/',base_path()).'/resources/views/x_templete/crud/write/v1/write/js/index_js.php'; ?>
 {{ $slot }}
 <div class="btn_box">
     <a class="btn_o_s" onclick="go_add_action();" >등록</a>

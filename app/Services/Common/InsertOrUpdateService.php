@@ -134,9 +134,9 @@ class InsertOrUpdateService
             ]);
             $post_data_arr=$tmp_rs['data']['post_data_arr'];
             $pri_col_val_arr=$tmp_rs['data']['pri_col_val_arr'];
+            $data_col_val_arr=$tmp_rs['data']['data_col_val_arr'];
             $pre_pri_col_val=$tmp_rs['data']['pre_pri_col_val'];
             $pre_info=$tmp_rs['data']['pre_info'];
-
             if(!empty($opt_obj['prev_func'])){
                if(function_exists($opt_obj['prev_func'])){
                     $opt_arr=array(
@@ -270,6 +270,7 @@ class InsertOrUpdateService
         $pri_col_arr=$opt_obj['pri_col_arr'];
         $last_pri_col=$opt_obj['last_pri_col'];
         $pre_pri_col_val=$opt_obj['pre_pri_col_val'];
+        $data_col_val_arr=array();
         $i=$opt_obj['i'];
         $pre_info=null;
 
@@ -293,13 +294,18 @@ class InsertOrUpdateService
                 }
                 $post_data_arr[$last_pri_col][$i]=$pre_pri_col_val[$tmp_pre_val_str];
            }
-
+           foreach($post_data_arr as $key=>$val){
+               $data_col_val_arr[$key]=$val[$i];
+           }
            foreach($pri_col_arr as $key){
                 $pri_col_val_arr[$key]=$post_data_arr[$key][$i];
            }
        }else{
            //수정 (키컬럼 제외)
            $pri_where_arr=array();
+           foreach($post_data_arr as $key=>$val){
+               $data_col_val_arr[$key]=$val[$i];
+           }
            foreach($pri_col_arr as $key){
                 $pri_col_val_arr[$key]=$post_data_arr[$key][$i];
            }
@@ -325,9 +331,12 @@ class InsertOrUpdateService
        $data_arr=[
            'post_data_arr'=>$post_data_arr,
            'pri_col_val_arr'=>$pri_col_val_arr,
+           'data_col_val_arr'=>$data_col_val_arr,
            'pre_pri_col_val'=>$pre_pri_col_val,
            'pre_info'=>$pre_info,
        ];
+
        $result_arr=['result'=>'true','data'=>$data_arr,'msg'=>'성공'];
+       return $result_arr;
     }
 }

@@ -11,6 +11,7 @@ var LygWriteForm=function(opt_obj){
     */
     this.requestAjax=function(tmp_opt_obj){
         var is_val=true;
+        var method="post";
         var url="";
         var form_data={};
         var callBackfunc=function(data){
@@ -21,6 +22,7 @@ var LygWriteForm=function(opt_obj){
         };
         var is_confirm=false;
         var confirm_msg="등록 하시겠습니까?";
+        if(tmp_opt_obj["method"]!=undefined){method=tmp_opt_obj["method"];}
         if(tmp_opt_obj["url"]!=undefined){url=tmp_opt_obj["url"];}
         if(tmp_opt_obj["form_data"]!=undefined){form_data=tmp_opt_obj["form_data"];}
         if(tmp_opt_obj["callBackfunc"]!=undefined){callBackfunc=tmp_opt_obj["callBackfunc"];}
@@ -32,12 +34,12 @@ var LygWriteForm=function(opt_obj){
 
         if(is_val){
             $.ajax({
-        		type:"post",
+        		type:method,
         		url:url,
         		dataType:'json',
         		data: form_data,
         		error:function(data){
-        			console.log("lyg_write_form.js",data);
+        			console.log("lyg_write_form.js Error ",data);
         		},
         		success:callBackfunc
         	});

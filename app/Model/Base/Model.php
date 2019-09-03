@@ -119,14 +119,13 @@ class Model{
         //등록
         $col_arr=array();
         $val_arr=array();
-
         foreach($col_val_arr as $key=>$val){
             $col_arr[]=$key;
-            $val_str="'".$val."'";
+            $val_str=Web::checkHtml($val);
+            $val_str="'".$val_str."'";
             if($val=='null'&&$val!='0'){
                 $val_str='null';
             }
-			$val_str=Web::checkHtml($val_str);
             $val_arr[]=$val_str;
         }
 
@@ -171,11 +170,11 @@ class Model{
         }
 
         foreach($col_val_arr as $key=>$val){
-            $val_str="'".$val."'";
+            $val_str=Web::checkHtml($val);
+            $val_str="'".$val_str."'";
             if($val=='null'&&$val!='0'){
                 $val_str='null';
             }
-			$val_str=Web::checkHtml($val_str);
             $up_arr[]=$key."=".$val_str;
         }
 
@@ -214,19 +213,19 @@ class Model{
 
         foreach($col_val_arr as $key=>$val){
             $col_arr[]=$key;
-            $val_str="'".$val."'";
+            $val_str=Web::checkHtml($val);
+            $val_str="'".$val_str."'";
             if($val=='null'&&$val!='0'){
                 $val_str='null';
             }
-			$val_str=Web::checkHtml($val_str);
             $val_arr[]=$val_str;
         }
         foreach($up_col_val_arr as $key=>$val){
-            $val_str="'".$val."'";
+            $val_str=Web::checkHtml($val);
+            $val_str="'".$val_str."'";
             if($val=='null'&&$val!='0'){
                 $val_str='null';
             }
-			$val_str=Web::checkHtml($val_str);
             $up_arr[]=$key."=".$val_str;
         }
 

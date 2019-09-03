@@ -15,4 +15,5 @@
 <p>aud: {{ $token_data->aud }}</p>
 <p>iat: {{ $token_data->iat }}</p>
 <p>exp: {{ $token_data->exp }}</p>
+<p>exp: {{ str_replace('\\','/',app_path()) }}</p>
 @endsection

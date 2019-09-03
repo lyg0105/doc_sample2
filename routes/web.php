@@ -27,6 +27,8 @@ Route::middleware(['checkLogin'])->group(function () {
 
     Route::get('/doc/list','Home\Doc\DocController@list');
     Route::get('/doc/write','Home\Doc\DocController@write');
+    Route::post('/api/doc/list','Api\Doc\DocController@list');
 
     Route::post('/api/common/write','Api\Common\CommonApiController@write');
+    Route::post('/api/common/xcolumn','Api\Common\CommonApiController@xcolumn');
 });

@@ -4,12 +4,12 @@
 
 @section('sidebar')
     @parent
-    
+
 @endsection
 
 @section('content')
-    List 영역
-    @foreach ($doc_list_arr as $info)
-    <p>This is user {{ $info['id'] }}</p>
-    @endforeach
+    @component('x_templete.crud.write.v1.list.list')
+        <h3>리스트</h3>
+        <?php include (str_replace('\\','/',base_path())."/resources/views/doc/list/list_js.php"); ?>
+    @endcomponent
 @endsection
