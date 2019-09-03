@@ -1,4 +1,4 @@
-<?php include_once str_replace('\\','/',base_path()).'/resources/views/x_templete/crud/write/v1/list/js/index_js.php'; ?>
+<?php include_once str_replace('\\','/',base_path()).'/resources/views/x_templete/crud/grid/v1/js/index_js.php'; ?>
 {{ $slot }}
 <div class="btn_box">
 

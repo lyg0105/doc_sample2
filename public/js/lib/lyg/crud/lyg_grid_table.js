@@ -55,7 +55,7 @@ var LygGridTable=function(opt_obj){
             var tmp_th_str=
                 "<th>"+
                     "<div class='column_td column_th' style='width:"+col_obj['width']+"px;' >"+
-                        "<input type='text' class='sc_input search_input' id='sc_"+key+"' style='width:98%;' />"+
+                        "<input type='text' class='sc_input search_input' search_key='sc_"+key+"' style='width:98%;' />"+
                     "</div>"+
                 "</th>";
             th_str_arr.push(tmp_th_str);
@@ -89,7 +89,7 @@ var LygGridTable=function(opt_obj){
             "<tr>"+
                 "<th>"+
                     "<div class='column_td column_th' style='width:21px;' >"+
-                        "<input type='checkbox' id='chk_all' />"+
+                        "<input type='checkbox' class='chk_all' />"+
                     "</div>"+
                 "</th>"+
                 "<th>"+

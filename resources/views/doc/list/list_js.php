@@ -22,6 +22,10 @@ function init_table_render(opt_data){
     opt_data['grid_table_id']='#list_table_div';
     window.xColumnObj=opt_data;
     lygGridTable=new LygGridTable(opt_data);
+    var tmp_grid_opt_data={
+        'gridTable_obj':lygGridTable
+    };
+    new LygGridEvent(tmp_grid_opt_data);
     addTrRowByAjax();
 }
 
