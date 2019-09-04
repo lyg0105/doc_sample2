@@ -105,4 +105,16 @@ var LygWriteForm=function(opt_obj){
         window.location.search.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(str, key, value) { params[key] = value; });
         return params;
     }
+
+    this.getFormDataToJson=function(opt_obj){
+        var form=opt_obj["form"];
+        var form_data_arr=$(form).serializeArray();
+        var form_json_data={};
+        for(var i=0;i<form_data_arr.length;i++){
+            var key=form_data_arr[i]['name'];
+            var val=form_data_arr[i]['value'];
+            form_json_data[key]=val;
+        }
+        return form_json_data;
+    };
 };

@@ -2,6 +2,10 @@
 var form_func=new LygWriteForm();
 var lygGridTable=null;
 window.xColumnObj={};
+var list_opt_arr={
+  'now_page':1,
+  'num_per_page':10
+};
 
 $(function(){
     get_Xcolumn_by_ajax();
@@ -36,15 +40,18 @@ function init_table_render(opt_data){
 }
 
 function addTrRowByAjax(){
-    var form_json_data={
-        "_token":"<?=csrf_token()?>"
-    };
     var url_data=form_func.getUrlParams();
     for(var key in url_data){
-        $("#"+key).val(url_data[key]);
-        form_json_data[key]=url_data[key];
+        list_opt_arr[key]=url_data[key];
     }
-    var num_per_page=url_data['num_per_page']?url_data['num_per_page']:10;
+    for(var key in list_opt_arr){
+        $("#"+key).val(list_opt_arr[key]);
+    }
+    var form_json_data=form_func.getFormDataToJson({"form":"#form"});
+    if($('#num_per_page').length==0){
+        form_json_data["num_per_page"]=list_opt_arr["num_per_page"];
+    }
+    form_json_data["_token"]="<?=csrf_token()?>";
     form_func.requestAjax(
         {
             'url':'/api/doc/list',
@@ -63,7 +70,8 @@ function addTrRowByAjax(){
                         var lygPaging=new LygPaging({
                             'now_page':$("#now_page").val(),
                             'total_rec':tot_num,
-                            'num_per_page':num_per_page
+                            'num_per_page':list_opt_arr["num_per_page"],
+                            'gopage_func_name':'gopage'
                         });
                         $("#paging_div").append(lygPaging.get_print_str());
                     }
