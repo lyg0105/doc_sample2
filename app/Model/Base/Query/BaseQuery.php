@@ -3,13 +3,14 @@ namespace App\Model\Base\Query;
 
 use App\Lib\Web\Web;
 use App\Lib\Web\Paging\WebPaging;
+use App\Model\Base\Func\DBFunc;
 
 class BaseQuery
 {
     public $table = '';
     public $primaryKey=['id'];
     public $baseModel=null;
-    public $x_column_arr=array();
+    public $x_column_arr=[];
     public $s_list_opt=[
         'now_page'=>1,
         'num_per_page'=>20,
@@ -57,12 +58,13 @@ class BaseQuery
 
     public function getWhereArr(){
         $where_row=array();
-
+        $x_column_arr=DBFunc::getXColumnArrByTableName(['table'=>$this->table,'baseModel'=>$this->baseModel]);
+        
         if(!empty($this->s_list_opt['sc'])){
             foreach($this->s_list_opt['sc'] as $k => $v){
                 if(!empty($v)){
                     $v=Web::CheckHtmlStr($v);
-                    if(isset($this->x_column_arr[$k])){
+                    if(isset($x_column_arr[$k])){
                         if($v=='empty'){
                             $where_row[]=" AND IFNULL($k,'') = ''";
                         }else{
@@ -78,10 +80,8 @@ class BaseQuery
 
     public function set_list_opt($s_list_opt=[]){
         $this->s_list_opt['table']=$this->table;
-        foreach($this->s_list_opt as $key=>$val){
-            if(isset($s_list_opt[$key])){
-                $this->s_list_opt[$key]=$s_list_opt[$key];
-            }
+        foreach($s_list_opt as $key=>$val){
+            $this->s_list_opt[$key]=$val;
         }
     }
 }

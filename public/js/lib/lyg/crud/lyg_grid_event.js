@@ -69,7 +69,11 @@ var LygGridEvent=function(opt_obj){
             }
         });
         $(document).keyup(function(e){
-            if($(e.target).hasClass("search_input")&&e.keyCode==13){this_obj.gopage(1);}//검색
+            if($(e.target).hasClass("search_input")&&e.keyCode==13){
+                if(this_obj.opt_obj.go_search_from_action){
+                    this_obj.opt_obj.go_search_from_action();
+                }
+            }//검색
 
             if($(e.target).hasClass("row_input")){
                 if(this_obj.opt_obj.go_change_row_input){

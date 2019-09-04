@@ -33,25 +33,23 @@ function init_table_render(opt_data){
         'go_add_new_row':function(){
             lygGridTable.addTrRow({},{});
         },
-        'go_delete_of_current_tr':deleteTrByAjax
+        'go_delete_of_current_tr':deleteTrByAjax,
+        'go_search_from_action':function(){
+            form_func.gopage(1);
+        }
     };
     new LygGridEvent(tmp_grid_opt_data);
-    addTrRowByAjax();
+    form_func.setHtmlFormDataByUrlData();
+    addTrRowsByAjax();
 }
 
-function addTrRowByAjax(){
-    var url_data=form_func.getUrlParams();
-    for(var key in url_data){
-        list_opt_arr[key]=url_data[key];
-    }
-    for(var key in list_opt_arr){
-        $("#"+key).val(list_opt_arr[key]);
-    }
+function addTrRowsByAjax(){
     var form_json_data=form_func.getFormDataToJson({"form":"#form"});
     if($('#num_per_page').length==0){
-        form_json_data["num_per_page"]=list_opt_arr["num_per_page"];
+        form_json_data+="&num_per_page="+list_opt_arr["num_per_page"];
     }
-    form_json_data["_token"]="<?=csrf_token()?>";
+    form_json_data+="&_token=<?=csrf_token()?>";
+    $(".tr_row").remove();
     form_func.requestAjax(
         {
             'url':'/api/doc/list',
@@ -71,8 +69,9 @@ function addTrRowByAjax(){
                             'now_page':$("#now_page").val(),
                             'total_rec':tot_num,
                             'num_per_page':list_opt_arr["num_per_page"],
-                            'gopage_func_name':'gopage'
+                            'gopage_func_name':'form_func.gopage'
                         });
+                        $("#paging_div").text("");
                         $("#paging_div").append(lygPaging.get_print_str());
                     }
                 }

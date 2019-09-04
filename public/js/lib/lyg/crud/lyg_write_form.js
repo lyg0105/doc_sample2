@@ -102,19 +102,72 @@ var LygWriteForm=function(opt_obj){
 
     this.getUrlParams=function(){
         var params = {};
-        window.location.search.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(str, key, value) { params[key] = value; });
+        var url_str=decodeURI(location.href);
+        var url_split_arr=url_str.split("?");
+        if(url_split_arr.length==1){return params;}
+        var query_arr=url_split_arr[1].split("&");
+        for(var i=0;i<query_arr.length;i++){
+            var key_val_arr=query_arr[i].split("=");
+            var key=key_val_arr[0];
+            var val=key_val_arr[1];
+            if(key.indexOf("[")!=-1){
+                var key_arr=key.split("[");
+                var key_main=key_arr[0];
+                var key_sub=key_arr[1].split("]")[0];
+                if(params[key_main]==undefined){params[key_main]={};}
+                params[key_main][key_sub]=key_val_arr[1];
+            }else{
+                params[key_val_arr[0]]=key_val_arr[1];
+            }
+        }
         return params;
     }
 
     this.getFormDataToJson=function(opt_obj){
         var form=opt_obj["form"];
-        var form_data_arr=$(form).serializeArray();
-        var form_json_data={};
-        for(var i=0;i<form_data_arr.length;i++){
-            var key=form_data_arr[i]['name'];
-            var val=form_data_arr[i]['value'];
-            form_json_data[key]=val;
-        }
+        this.setSearchInputColumnToName();
+        var form_json_data=$(form).serialize();
+        $(".sc_input").attr("name","");
         return form_json_data;
     };
+
+    this.setSearchInputColumnToName=function(){
+        $(".sc_input").each(function(idx,ele){
+            if($(ele).val()!=""){
+                var sc_key=$(ele).attr("search_key");
+                sc_key=sc_key.replace("sc_","");
+                $(ele).attr("name","sc["+sc_key+"]");
+            }
+        });
+    };
+
+    this.setHtmlFormDataByUrlData=function(){
+        var url_data=this.getUrlParams();
+        for(var key in url_data){
+            list_opt_arr[key]=url_data[key];
+        }
+        for(var key in list_opt_arr){
+            if(key=="sc"){
+                var sc_arr=list_opt_arr[key];
+                for(var sc_key in sc_arr){
+                    var sc_val=sc_arr[sc_key];
+                    $(".sc_input").each(function(idx,ele){
+                        if($(ele).attr("search_key").replace("sc_","")==sc_key){
+                            $(ele).val(sc_val);
+                        }
+                    });
+                }
+            }else{
+                $("#"+key).val(list_opt_arr[key]);
+            }
+        }
+    };
+
+    this.gopage=function(nowpage){
+        this.setSearchInputColumnToName();
+        $("#form #now_page").val(nowpage);
+        $("#form").attr("method","get");
+        //$("#form #flag").val("list");
+        $("#form").submit();
+    }
 };
