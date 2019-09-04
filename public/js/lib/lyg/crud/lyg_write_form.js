@@ -99,4 +99,10 @@ var LygWriteForm=function(opt_obj){
 
     	return form_json_data;
     };
+
+    this.getUrlParams=function(){
+        var params = {};
+        window.location.search.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(str, key, value) { params[key] = value; });
+        return params;
+    }
 };

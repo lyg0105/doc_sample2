@@ -25,15 +25,14 @@ class DocController extends Controller
      */
     public function list()
     {
+        $s_list_opt=[
+            'now_page'=>$this->request->input('now_page'),
+            'num_per_page'=>$this->request->input('num_per_page'),
+            'sc'=>$this->request->input('sc')
+        ];
         $doc_list_arr=array();
-        $doc_list_arr=$this->doc_model->getList();
+        $doc_list_arr=$this->doc_model->getList($s_list_opt);
         $result_arr=['data'=>$doc_list_arr];
-        return parent::response($result_arr);
-    }
-    public function getXColumnArr($x_name='write')
-    {
-        $this->xColumnArr_obj=new XColumnArr('DOC/Write');
-        $result_arr=['data'=>$this->xColumnArr_obj];
         return parent::response($result_arr);
     }
 }

@@ -3,6 +3,7 @@ namespace App\Model\Base;
 
 use App\Model\Base\Model;
 use App\Lib\Web\Web;
+use App\Model\Base\Query\BaseQuery;
 
 class BaseModel
 {
@@ -13,22 +14,7 @@ class BaseModel
     protected $keyType='array';
 
     public $db_main=null;
-    public $x_column_arr=array();
-    public $write_except_col_arr=array();
-    public $s_list_opt=[
-        'now_page'=>1,
-        'num_per_page'=>20,
-        'order_id'=>'',
-        'order_type'=>'',
-        's_date_type'=>'',
-        's_start_date'=>'',
-        's_end_date'=>'',
-        'sc'=>[],
 
-        'table'=>'',
-        'debug'=>false,
-        'get_col'=>'*',
-    ];
 
     function __construct(Model $db_main){
         $this->db_main=$db_main;
@@ -55,41 +41,13 @@ class BaseModel
     }
 
     public function getList($s_list_opt=[]){
-        $this->set_list_opt($s_list_opt);
+        $baseQuery=new BaseQuery($this);
+        $baseQuery->table=$this->table;
+        $baseQuery->set_list_opt($s_list_opt);
+        $list_data=$baseQuery->getList();
 
-        $tmp_w=$this->getWhereArr();
-        $sql_opt=array('t'=>$this->table,'w'=>$tmp_w,'g'=>'*');
-        $info_arr=$this->db_main->get_info_arr($sql_opt, $debug=false);
-        return $info_arr;
+        return $list_data;
     }
 
-    public function getWhereArr(){
-        $where_row=array();
 
-		if(!empty($this->s_list_opt['sc'])){
-			foreach($this->s_list_opt['sc'] as $k => $v){
-				if(!empty($v)){
-					$v=Web::CheckHtmlStr($v);
-					if(isset($this->x_column_arr[$k])){
-						if($v=='empty'){
-							$where_row[]=" AND IFNULL($k,'') = ''";
-						}else{
-							$where_row[]=" AND $k LIKE '%".$v."%'";
-						}
-					}
-				}
-			}
-		}
-
-		return $where_row;
-    }
-
-    public function set_list_opt($s_list_opt=[]){
-        $this->s_list_opt['table']=$this->table;
-        foreach($this->s_list_opt as $key=>$val){
-            if(isset($s_list_opt[$key])){
-                $this->s_list_opt[$key]=$s_list_opt[$key];
-            }
-        }
-    }
 }

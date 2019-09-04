@@ -39,6 +39,12 @@ function addTrRowByAjax(){
     var form_json_data={
         "_token":"<?=csrf_token()?>"
     };
+    var url_data=form_func.getUrlParams();
+    for(var key in url_data){
+        $("#"+key).val(url_data[key]);
+        form_json_data[key]=url_data[key];
+    }
+    var num_per_page=url_data['num_per_page']?url_data['num_per_page']:10;
     form_func.requestAjax(
         {
             'url':'/api/doc/list',
@@ -46,11 +52,20 @@ function addTrRowByAjax(){
             'is_confirm':false,
             'callBackfunc':function(data){
                 if(data['result']=='true'){
-                    if(data['data'].length>0){
-                        for(var i=0;i<data['data'].length;i++){
-                            var idx_num=i+1;
-                            lygGridTable.addTrRow(data['data'][i],{'idx_num':idx_num,'is_focus':false});
+                    if(data['data']['info_arr'].length>0){
+                        var start_idx_num=data['data']['start_index'];
+                        var tot_num=data['data']['tot'];
+                        for(var i=0;i<data['data']['info_arr'].length;i++){
+                            var idx_num=start_idx_num-i;
+                            lygGridTable.addTrRow(data['data']['info_arr'][i],{'idx_num':idx_num,'is_focus':false});
                         }
+
+                        var lygPaging=new LygPaging({
+                            'now_page':$("#now_page").val(),
+                            'total_rec':tot_num,
+                            'num_per_page':num_per_page
+                        });
+                        $("#paging_div").append(lygPaging.get_print_str());
                     }
                 }
             }

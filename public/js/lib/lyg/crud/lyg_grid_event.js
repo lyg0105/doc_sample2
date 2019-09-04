@@ -619,7 +619,8 @@ var LygGridEvent=function(opt_obj){
 
     this.gopage=function(now_page){
         $("#now_page").val(now_page);
-        $("#from").submit();
+        $("#form").attr("method","get");
+        $("#form").submit();
     };
 
     this.init();
