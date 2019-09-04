@@ -19,12 +19,12 @@ class DocList extends Migration
             $table->string('sort1',45);
             $table->string('sort2',45);
             $table->string('sort3',45);
-            $table->mediumText('func_text',200);
-            $table->string('func_important',40);
-            $table->string('func_state',40);
-            $table->string('memo',40);
-            $table->dateTime('created_date');
-            $table->dateTime('update_date');
+            $table->mediumText('func_text',200)->nullable();
+            $table->string('func_important',40)->nullable();
+            $table->string('func_state',40)->nullable();
+            $table->string('memo',40)->nullable();
+            $table->dateTime('create_date')->nullable();
+            $table->dateTime('update_date')->nullable();
         });
     }
 

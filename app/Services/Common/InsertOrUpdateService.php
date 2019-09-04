@@ -6,7 +6,8 @@ use App\Model\Base\Func\DBFunc;
 
 class InsertOrUpdateService
 {
-    public function action($opt_obj){
+    public function action($opt_obj)
+    {
         $result_arr=['result'=>'true','data'=>'','msg'=>'성공','error'=>[]];
         if(!isset($opt_obj['is_transaction'])){$opt_obj['is_transaction']=true;}
         if(!isset($opt_obj['is_commit'])){$opt_obj['is_commit']=true;}
@@ -75,22 +76,6 @@ class InsertOrUpdateService
             foreach($post_data_arr as $key=>$val){
                 $tmp_col_val_arr[$key]=$val[$i];
             }
-            $data_arr=array(
-                'is_num_col_arr'=>$is_num_col_arr,
-                'date_col_arr'=>$date_col_arr,
-                'pri_col_arr'=>$pri_col_arr,
-                'last_pri_col'=>$last_pri_col,
-                'x_column_arr'=>$x_column_arr,
-                'post_data_arr'=>$tmp_col_val_arr
-            );
-            $tmp_rs=ConvertRequest::getDefaultRequestColValArr($data_arr);
-            if($tmp_rs['result']=='false'){
-                return $tmp_rs;
-            }
-            $tmp_col_val_arr=$tmp_rs['data'];
-            foreach($tmp_col_val_arr as $key=>$val){
-                $post_data_arr[$key][$i]=$val;
-            }
 
             $tmp_is_update=$is_update;
             if(!empty($is_update_arr)){
@@ -108,11 +93,28 @@ class InsertOrUpdateService
                     }
                     $tmp_get='COUNT(*) AS tot';
                     $sql_opt=array('t'=>$table,'w'=>$tmp_w,'g'=>$tmp_get,'o'=>1);
-                    $tmp_info=$baseModel->db_main->get_info_arr($sql_opt, $debug = null);
+                    $tmp_info=$baseModel->db_main->get_info_arr($sql_opt, $debug = false);
                     if(!empty($tmp_info['tot'])){
                         $tmp_is_update='1';
                     }
                 }
+            }
+
+            $data_arr=array(
+                'is_num_col_arr'=>$is_num_col_arr,
+                'date_col_arr'=>$date_col_arr,
+                'pri_col_arr'=>$pri_col_arr,
+                'last_pri_col'=>$last_pri_col,
+                'x_column_arr'=>$x_column_arr,
+                'post_data_arr'=>$tmp_col_val_arr
+            );
+            $tmp_rs=ConvertRequest::getDefaultRequestColValArr($data_arr);
+            if($tmp_rs['result']=='false'){
+                return $tmp_rs;
+            }
+            $tmp_col_val_arr=$tmp_rs['data'];
+            foreach($tmp_col_val_arr as $key=>$val){
+                $post_data_arr[$key][$i]=$val;
             }
 
             $attempt_cnt++;

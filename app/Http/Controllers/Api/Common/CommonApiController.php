@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Model\Base\BaseModel;
 use App\Services\Common\InsertOrUpdateService;
+use App\Services\Common\DeleteService;
 use App\Values\XColumn\XColumnArr;
 
 class CommonApiController extends Controller
@@ -43,6 +44,17 @@ class CommonApiController extends Controller
             'request'=>$this->request
         ];
         $result_arr=$insertOrUpdateService->action($opt_obj);
+        return parent::response($result_arr);
+    }
+
+    public function delete()
+    {
+        $deleteService=new DeleteService();
+        $opt_obj=[
+            'baseModel'=>$this->baseModel,
+            'request'=>$this->request
+        ];
+        $result_arr=$deleteService->action($opt_obj);
         return parent::response($result_arr);
     }
 }

@@ -1,5 +1,6 @@
 <script>
 var form_func=new LygWriteForm();
+var lygGridTable=null;
 window.xColumnObj={};
 
 $(function(){
@@ -16,13 +17,25 @@ function get_Xcolumn_by_ajax(){
             }
         }
     );
-
-
 }
 function init_table_render(opt_data){
     opt_data['grid_table_id']='#write_table_div';
     window.xColumnObj=opt_data;
     var lygGridTable=new LygGridTable(opt_data);
+    var tmp_grid_opt_data={
+        'gridTable_obj':lygGridTable,
+        'is_grid':true,
+        'is_not_grid':false,
+        'go_add_new_row':function(){
+            lygGridTable.addTrRow({},{});
+        },
+        'go_delete_of_current_tr':function(){
+            $(".chk_box:checked").each(function(idx,ele){
+                $(ele).parent().parent().parent().remove();
+            });
+        }
+    };
+    new LygGridEvent(tmp_grid_opt_data);
     lygGridTable.addTrRow({},{});
 }
 

@@ -3,6 +3,7 @@ namespace App\Values\XColumn;
 
 class XColumnArr
 {
+    public $table='';
     public $x_column_list_arr=[];//[ 'jasa_title'=>['name'=>'회사상호','type'=>'varchar','length'=>'30','pri'=>'','width'=>'100'], ]
     public $x_column_list_orig_arr=[];
     public $x_pri_col_arr=[];
@@ -31,6 +32,7 @@ class XColumnArr
     public function getData(){
         return
             [
+                'table'=>$this->table,
                 'x_column_list_arr'=>$this->x_column_list_arr,
                 'x_column_list_orig_arr'=>$this->x_column_list_orig_arr,
                 'x_pri_col_arr'=>$this->x_pri_col_arr,

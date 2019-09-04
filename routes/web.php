@@ -31,4 +31,5 @@ Route::middleware(['checkLogin'])->group(function () {
 
     Route::post('/api/common/write','Api\Common\CommonApiController@write');
     Route::post('/api/common/xcolumn','Api\Common\CommonApiController@xcolumn');
+    Route::post('/api/common/delete','Api\Common\CommonApiController@delete');
 });
